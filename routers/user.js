@@ -1,6 +1,6 @@
 const express = require("express");
 const {
-  getUserData,
+  // getUserData,
   deleteUser,
   updateUser,
   getAllUserData,
@@ -15,7 +15,7 @@ router.put("/:id", verifyToken, updateUser);
 router.delete("/:id", verifyToken, deleteUser);
 
 //get user
-router.get("/find/:id", verifyToken, getUserData);
+// router.get("/find/:id", verifyToken, getUserData);
 
 //get all users
 router.get("/user", getAllUserData);
