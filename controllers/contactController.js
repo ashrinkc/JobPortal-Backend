@@ -10,7 +10,7 @@ import {
 } from "../utils/validator.js";
 import { mailToUser, mailToAdmin } from "../helpers/mailer.js";
 
-const addContact = async (req, res) => {
+export const addContact = async (req, res) => {
   try {
     let { fullName, jobTitle, address, contact, email, message } = req.body;
     if (emptyQueryValidator(req.query, res) || bodyValidator(req.body, res))
@@ -72,46 +72,46 @@ const addContact = async (req, res) => {
   }
 };
 
-const getAllContact = async (req, res) => {
-  try {
-    const getAllContact = await contactModel.find({ isDelete: false });
-    res.status(200).json({ data: getAllContact });
-  } catch (err) {
-    res.status(400).json({
-      msg:
-        "There was an error while getting all contact details: " + err.message,
-    });
-  }
-};
+// const getAllContact = async (req, res) => {
+//   try {
+//     const getAllContact = await contactModel.find({ isDelete: false });
+//     res.status(200).json({ data: getAllContact });
+//   } catch (err) {
+//     res.status(400).json({
+//       msg:
+//         "There was an error while getting all contact details: " + err.message,
+//     });
+//   }
+// };
 
-const getOneContact = async (req, res) => {
-  try {
-    const id = req.params.id;
-    const getContactById = await contactModel
-      .findOne({
-        $and: [{ _id: req.params.id, isDelete: false }],
-      })
-      .select("-isDelete");
-    res.status(200).json({ data: getContactById });
-  } catch (err) {
-    res.status(400).json({
-      msg: "There was an error while getting contact details: " + err.message,
-    });
-  }
-};
+// const getOneContact = async (req, res) => {
+//   try {
+//     const id = req.params.id;
+//     const getContactById = await contactModel
+//       .findOne({
+//         $and: [{ _id: req.params.id, isDelete: false }],
+//       })
+//       .select("-isDelete");
+//     res.status(200).json({ data: getContactById });
+//   } catch (err) {
+//     res.status(400).json({
+//       msg: "There was an error while getting contact details: " + err.message,
+//     });
+//   }
+// };
 
-const deleteContact = async (req, res) => {
-  try {
-    const id = req.params.id;
-    const getContactById = await contactModel.findByIdAndUpdate(id, {
-      isDelete: true,
-    });
-    res.status(200).send({ msg: "contact deleted successfully" });
-  } catch (err) {
-    res.status(400).json({
-      msg: "There was an  error while deleting contact: " + err.message,
-    });
-  }
-};
+// const deleteContact = async (req, res) => {
+//   try {
+//     const id = req.params.id;
+//     const getContactById = await contactModel.findByIdAndUpdate(id, {
+//       isDelete: true,
+//     });
+//     res.status(200).send({ msg: "contact deleted successfully" });
+//   } catch (err) {
+//     res.status(400).json({
+//       msg: "There was an  error while deleting contact: " + err.message,
+//     });
+//   }
+// };
 
-export default { addContact, getAllContact, getOneContact, deleteContact };
+// export default { addContact, getAllContact, getOneContact, deleteContact };
