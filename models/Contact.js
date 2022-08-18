@@ -1,8 +1,6 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
-export default mongoose.model(
-  "contact",
-  mongoose.Schema(
+const contactModel = mongoose.Schema(
     {
       fullName: {
         type: String,
@@ -12,7 +10,7 @@ export default mongoose.model(
         type: String,
         required: true,
       },
-      jobTitile: {
+      jobTitle: {
         type: String,
         required: true,
       },
@@ -36,4 +34,7 @@ export default mongoose.model(
       timestamps: true,
     }
   )
-);
+
+const ContactModel = mongoose.model("contact", contactModel);
+
+module.exports = ContactModel;

@@ -1,22 +1,24 @@
-import mongoose from "mongoose";
-import Contact from "../models/Contact.js";
-import {
+const ContactModel = require("../models/Contact.js");
+const {
   bodyValidator,
   emptyFieldValidator,
   emptyQueryValidator,
   nameValidator,
   emailValidator,
   contactValidator,
-} from "../utils/validator.js";
-import { mailToUser, mailToAdmin } from "../helpers/mailer.js";
+  mongooseIdValidator,
+  emptyBodyValidator,
+  paramsValidator
+} = require("../utils/validator.js");
+const { mailToUser, mailToAdmin } = require("../helpers/mailer.js");
 
-export const addContact = async (req, res) => {
+const addContact = async (req, res) => {
   try {
     let { fullName, jobTitle, address, contact, email, message } = req.body;
     if (emptyQueryValidator(req.query, res) || bodyValidator(req.body, res))
       return;
 
-    let fields = [fullName, job, address, number, email];
+    let fields = [fullName, jobTitle, address, contact, email];
     if (emptyFieldValidator(fields, res)) return;
 
     let job = jobTitle.trim();
@@ -33,12 +35,12 @@ export const addContact = async (req, res) => {
       });
     }
     if (contactValidator(contact) != true) {
-        return res.status(422).json({
-          msg: "Invalid Contact!",
-        });
-      }
+      return res.status(422).json({
+        msg: "Invalid Contact!",
+      });
+    }
 
-    const newContact = new Contact({
+    const newContact = new ContactModel({
       fullName,
       jobTitle: job,
       address,
@@ -53,15 +55,15 @@ export const addContact = async (req, res) => {
         msg: "Failed to apply for Job !",
       });
     }
-    
+
     const mailData = {
-        email,
-        fullName,
-        contact,
-        jobTitle,
-        address,
-        description
-    } 
+      email,
+      fullName,
+      contact,
+      jobTitle,
+      address,
+      description,
+    };
     await mailToUser(mailData);
     await mailToAdmin(mailData);
     res.status(200).json({
@@ -72,17 +74,18 @@ export const addContact = async (req, res) => {
   }
 };
 
-// const getAllContact = async (req, res) => {
-//   try {
-//     const getAllContact = await contactModel.find({ isDelete: false });
-//     res.status(200).json({ data: getAllContact });
-//   } catch (err) {
-//     res.status(400).json({
-//       msg:
-//         "There was an error while getting all contact details: " + err.message,
-//     });
-//   }
-// };
+const getAllContact = async (req, res) => {
+  try {
+    const getAllContact = await ContactModel.find();
+    res.status(200).json({ data: getAllContact });
+  } catch (err) {
+    res.status(400).json({
+      msg:
+        "There was an error while getting all applicant details: " +
+        err.message,
+    });
+  }
+};
 
 // const getOneContact = async (req, res) => {
 //   try {
@@ -100,18 +103,21 @@ export const addContact = async (req, res) => {
 //   }
 // };
 
-// const deleteContact = async (req, res) => {
-//   try {
-//     const id = req.params.id;
-//     const getContactById = await contactModel.findByIdAndUpdate(id, {
-//       isDelete: true,
-//     });
-//     res.status(200).send({ msg: "contact deleted successfully" });
-//   } catch (err) {
-//     res.status(400).json({
-//       msg: "There was an  error while deleting contact: " + err.message,
-//     });
-//   }
-// };
+const deleteContact = async (req, res) => {
+  try {
+    const id = req.params.id;
+    if(paramsValidator(id, res) || mongooseIdValidator(id, res) || emptyBodyValidator(req.body, res)) return;
+    const getContactById = await ContactModel.findByIdAndDelete(id);
+    if(!getContactById){
+      res.status(404).json({msg:"The given ID in not found."})
+    }
+    res.status(200).send({ msg: "Contact deleted successfully" });
+  } catch (err) {
+    res.status(500).json({
+      msg: "There was an  error while deleting contact: " + err.message,
+    });
+  }
+};
 
-// export default { addContact, getAllContact, getOneContact, deleteContact };
+
+module.exports = { addContact, getAllContact, deleteContact };
