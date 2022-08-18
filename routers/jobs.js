@@ -19,9 +19,9 @@ router.put("/:id", verifyToken, updateJobs);
 router.delete("/:id", verifyToken, deleteJobs);
 
 //get job by id
-router.get("/find/:id", getJobsById);
+router.get("/find/:id", verifyToken, getJobsById);
 
 //get all jobs
-router.get("/allJobs", getAllJobs);
+router.get("/allJobs", verifyToken, getAllJobs);
 
 module.exports = router;
