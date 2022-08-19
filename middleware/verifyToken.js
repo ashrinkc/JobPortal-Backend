@@ -17,7 +17,7 @@ function verifyToken(req, res, next) {
       next();
     });
   } catch (err) {
-    return res.send(500).json({ message: err.message });
+    return res.status(500).json({ message: err.message });
   }
 }
 
