@@ -25,7 +25,7 @@ app.use("/api/v1/jobs", jobsRoutes);
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/blog", blogRoutes);
-app.use("/api/v1/category", categoryRoutes);
+// app.use("/api/v1/category", categoryRoutes);
 app.use("/api/v1/contact", contactRoutes);
 
 app.listen(process.env.PORT, () => {
