@@ -3,7 +3,7 @@ const router = express.Router();
 const {
   addContact,
   getAllContact,
-  deleteContact
+  deleteContact,
 } = require("../controllers/contactController.js");
 
 router.post("/", addContact);

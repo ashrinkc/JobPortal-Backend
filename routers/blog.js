@@ -13,10 +13,10 @@ const verifyToken = require("../middleware/verifyToken");
 router.post("/", createBlog);
 
 //update blog
-router.put("/:id", verifyToken, updateBlog);
+router.put("/:id", updateBlog);
 
 //delete blog
-router.delete("/:id", verifyToken, deleteBlog);
+router.delete("/:id", deleteBlog);
 
 //get job by id
 router.get("/find/:id", getBlogById);
