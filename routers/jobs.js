@@ -10,7 +10,7 @@ const {
 const verifyToken = require("../middleware/verifyToken");
 
 //create jobs
-router.post("/", createJobs);
+router.post("/",verifyToken, createJobs);
 
 //update jobs
 router.put("/:id", verifyToken, updateJobs);
@@ -19,7 +19,7 @@ router.put("/:id", verifyToken, updateJobs);
 router.delete("/:id", verifyToken, deleteJobs);
 
 //get job by id
-router.get("/find/:id", getJobsById);
+router.get("/find/:id", verifyToken, getJobsById);
 
 //get all jobs
 router.get("/allJobs", getAllJobs);

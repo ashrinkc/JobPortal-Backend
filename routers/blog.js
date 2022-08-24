@@ -10,7 +10,7 @@ const {
 const verifyToken = require("../middleware/verifyToken");
 
 //create blog
-router.post("/", createBlog);
+router.post("/", verifyToken, createBlog);
 
 //update blog
 router.put("/:id", verifyToken, updateBlog);
