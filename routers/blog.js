@@ -19,7 +19,7 @@ router.put("/:id", verifyToken, updateBlog);
 router.delete("/:id", verifyToken, deleteBlog);
 
 //get job by id
-router.get("/find/:id", verifyToken, getBlogById);
+router.get("/find/:id", getBlogById);
 
 //get all blog
 router.get("/allBlog", getAllBlog);
