@@ -12,7 +12,9 @@ const contactRoutes = require("./routers/contact.js");
 
 // dotenv file for config file
 const dotenv = require("dotenv").config();
+const PORT = process.env.PORT || 5000
 // import "dotenv/config";
+
 
 //middleware for json format
 app.use(express.json());
@@ -29,6 +31,6 @@ app.use("/api/v1/blog", blogRoutes);
 // app.use("/api/v1/category", categoryRoutes);
 app.use("/api/v1/contact", contactRoutes);
 
-app.listen(process.env.PORT, () => {
-  console.log(`running in port number ${process.env.PORT}`);
+app.listen(PORT, () => {
+  console.log(`running in port number ${PORT}`);
 });
