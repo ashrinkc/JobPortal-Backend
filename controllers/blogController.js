@@ -1,17 +1,36 @@
 //database
 require("../database/database.js");
-
+const cloudinary = require("../utils/cloudinary.js");
 //Blog Model
 const Blog = require("../models/Blog");
 
 // create blog (only admin can add job)
 const createBlog = async (req, res) => {
-  const body = req.body;
-  const newList = new Blog(body);
-  console.log(body);
+  const { title, author, desc, img, metaTitle, metaKey, metaDesc } = req.body;
+  // const body = req.body;
+  // const newList = new Blog(body);
+
   try {
-    const result = await newList.save();
-    res.status(200).json(result);
+    const result = await cloudinary.uploader.upload(img, {
+      folder: "products",
+      // width: 300,
+      // crop: "scale"
+    });
+
+    const product = await Blog({
+      title,
+      author,
+      desc,
+      img: {
+        public_id: result.public_id,
+        url: result.secure_url,
+      },
+      metaTitle,
+      metaKey,
+      metaDesc,
+    });
+    const ress = await product.save();
+    res.status(200).json(ress);
   } catch (err) {
     res.status(200).json(err);
   }
