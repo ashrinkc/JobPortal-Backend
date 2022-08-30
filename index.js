@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const fileupload = require("express-fileupload");
 // importing routes
 const jobsRoutes = require("./routers/jobs.js");
 const authRoutes = require("./routers/auth.js");
@@ -13,9 +14,9 @@ const contactRoutes = require("./routers/contact.js");
 const dotenv = require("dotenv").config();
 // import "dotenv/config";
 
-
 //middleware for json format
 app.use(express.json());
+app.use(fileupload({ useTempFiles: true }));
 
 //database
 require("./database/database.js");
